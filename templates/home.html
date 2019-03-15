@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <title>标识代理服务系统接口测试</title>
+    <style>
+        section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <label for="">标识条件查询接口：</label>
+        <input type="text" placeholder="请输入标识" class="Identification">
+        <button class="inquire_btn">查询</button>
+    </section>
+    <section>
+        <label for="">标识条件index查询接口：</label>
+        <input type="text" placeholder="请输入标识index" class="Identification_index">
+        <button class="Identification_index_btn">查询</button>
+    </section>
+    <section>
+        <label for="">标识条件type查询接口：</label>
+        <input type="text" placeholder="请输入标识type" class="Identification_type">
+        <button class="">查询</button>
+    </section>
+    <section>
+        <label for="">创建标识接口：</label>
+        <input type="text" placeholder="请输入标识名" class="Identification_name">
+        <button class="add_identification_btn">查询</button>
+    </section>
+    <section>
+        <label for="">删除标识接口：</label>
+        <input type="text" placeholder="请输入标识" class="del_identification">
+        <button class="del_btn">删除</button>
+    </section>
+
+    <section>
+        <label for="">标识值添加:</label>
+        <input type="text" placeholder="请输入标识index" class="add_identification_index">
+        <button class="add_index_btn">添加</button>
+    </section>
+    <section>
+        <label for="">标识值删除:</label>
+        <input type="text" placeholder="请输入标识index" class="del_identification_index">
+        <button class="del_index_btn">添加</button>
+    </section>
+    <section>
+        <label for="">标识值修改:</label>
+        <input type="text" placeholder="请输入标识值" class="update_identification_data">
+        <button class="update_index_btn">修改</button>
+    </section>
+    <script>
+        function getdata(url, type = 'POST', data) {
+            $.ajax({
+                type: type,
+                url: 'http://127.0.0.1:8090/' + url,
+                data: data
+            })
+        }
+
+        // 标识接口查询
+        $('.inquire_btn').on('click', function() {
+            data = {
+                "identification": $('.Identification').val()
+            }
+            getdata('analysisHandleName', 'POST', data)
+        })
+
+        // 标识接口查询-index
+        $('.Identification_index_btn').on('click', function() {
+                data = {
+                        'identification': $('.Identification').val(),
+                        "index": $('.Identification_index').val(),
+                    },
+                    getdata('analysisByIndex', 'POST', data)
+            })
+            // 创建标识
+        $('.add_identification_btn').on('click', function() {
+            data = {
+                    'identification': $('.Identification').val(),
+                    "index": $('.Identification_index').val(),
+                    'type': $('.Identification_name').val()
+                },
+                getdata('addIdentification', 'POST', data)
+        })
+
+        // 删除标识
+        $('.del_btn').on('click', function() {
+                data = {
+                    "identification": $('.del_identification').val()
+                }
+                getdata('delIdentification', 'POST', data)
+            })
+            // 创建标识值
+        $('.add_index_btn').on('click', function() {
+            data = {
+                "identification": $('.Identification').val(),
+                'index': $('.add_identification_index').val(),
+                'type': $('.Identification_type').val()
+            }
+            getdata('addIdentificationIndex', 'POST', data)
+        })
+
+        // 删除标识值
+        $('.del_index_btn').on('click', function() {
+            data = {
+                "identification": $('.Identification').val(),
+                'index': $('.del_identification_index').val()
+            }
+            getdata('delIdentificationIndex', 'POST', data)
+        })
+        $('.update_index_btn').on('click', function() {
+            data = {
+                "identification": $('.Identification').val(),
+                'index': $('.Identification_index').val(),
+                'type': $('.Identification_type').val(),
+                'value': '{"itemName":' + $('.update_identification_data').val() + '}'
+            }
+            getdata('updateIdentificationIndex', 'POST', data)
+        })
+    </script>
+</body>
+
+</html>
